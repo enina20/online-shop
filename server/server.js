@@ -1,5 +1,6 @@
 require('./config/config');
 
+const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
 
@@ -13,31 +14,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 /*************************************************************/
 
+//Importamos el archivo de las rutas del usuario
+app.use( require( './Controllers-Routes/usuario_controller'));
  
-//PETICIONES URL
-app.get('/usuario', function (req, res) {
-  res.json('Get usuario')
-});
 
-app.post('/usuario', function (req, res) {
 
-    let body = req.body;//variable con la data del usuario, obtenido mediante el bodyParser
-    res.json({
-        persona: body
-    });
-});
-
-//Las peticiones put deben de recibir el id del usuario que se quiere actualizar mediante /:id
-app.put('/usuario/:id', function (req, res) {
-
-    let id = req.params.id; // en esta variable recogemos el parametro que envia el usuario
-    res.json({
-        id
-    });
-});
-
-app.delete('/usuario', function (req, res) {
-    res.json('Delete usuario')
+//Conexion a la base de datos mediante mongoose
+mongoose.connect(process.env.URLDB, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true
+}).then( resp => {
+    console.log( `Connecion to MongoDB is OK!` );
+}).catch( err => {
+    console.log( `Error connecion: `, err );
 });
  
 app.listen(process.env.PORT, () => {
