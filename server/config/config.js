@@ -23,11 +23,11 @@ process.env.SEED = process.env.SEED || 'seed-desarrollo';
 // BASE DE DATOS
 //===================================
 let urlDB;
-// if(process.env.NODE_ENV === 'dev'){
-//     urlDB = 'mongodb://localhost:27017/cafe'
-// }else{
+if(process.env.NODE_ENV === 'dev'){
+    urlDB = 'mongodb://localhost:27017/cafe'
+}else{
     //urlDB = process.env.MONGO_URI;
     urlDB = 'mongodb+srv://enina:c0eJjqWFzAOURRzI@cluster0.690ff.mongodb.net/Cafe';
-//}
+}
 
 process.env.URLDB = urlDB;
