@@ -2,14 +2,17 @@
 
 
 const express = require('express');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs'); //libreria para la encriptacion de la contrasena
 const _ = require('underscore');
 const app = express();
 
 const Usuario = require('../models/usuario_model');
 
+//Realizamos la importacion del archivo mediante la destructuracion
+const { verificaToken, verificaAdmin_Role } = require('../middlewares/autenticacion');
+
 //PETICIONES URL
-app.get('/usuario', function (req, res) {
+app.get('/usuario', verificaToken ,function (req, res) {
 
     let desde = Number(req.query.desde) || 0;
     let limite =  Number( req.query.limite) || 5;
@@ -40,7 +43,7 @@ app.get('/usuario', function (req, res) {
         })
 });
   
-app.post('/usuario', function (req, res) {
+app.post('/usuario', [verificaToken, verificaAdmin_Role] , function (req, res) {
 
     let body = req.body;//variable con la data del usuario, obtenido mediante el bodyParser
     
@@ -62,11 +65,10 @@ app.post('/usuario', function (req, res) {
             usuario : usuarioDB
         });
     });
-
 });
   
   //Las peticiones put deben de recibir el id del usuario que se quiere actualizar mediante /:id
-  app.put('/usuario/:id', function (req, res) {
+  app.put('/usuario/:id', [verificaToken, verificaAdmin_Role], function (req, res) {
     
       let id = req.params.id; // en esta variable recogemos el parametro que envia el usuario
       
@@ -89,11 +91,10 @@ app.post('/usuario', function (req, res) {
             ok: true,
             usuario: usuarioDB
         });
-      });
-     
+      });     
   });
   
-  app.delete('/usuario/:id', function (req, res) {
+  app.delete('/usuario/:id', [verificaToken, verificaAdmin_Role], function (req, res) {
 
     let id = req.params.id;
     // Usuario.findByIdAndRemove(id, (err, usuarioBorrado) => {
@@ -111,7 +112,7 @@ app.post('/usuario', function (req, res) {
             });
         };
 
-        if (!usuarioBorrado || !usuarioBorrado.status ) {
+        if (!usuarioBorrado ) {
             return res.status(400).json({
                 ok: false,
                 err: {
@@ -125,10 +126,7 @@ app.post('/usuario', function (req, res) {
             usuario: usuarioBorrado
         });
 
-    });
-    
+    });    
   });
-
-
-
+  
   module.exports = app;

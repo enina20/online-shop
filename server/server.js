@@ -14,8 +14,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 /*************************************************************/
 
-//Importamos el archivo de las rutas del usuario
-app.use( require( './Controllers-Routes/usuario_controller'));
+//Importamos el archivo de las rutas del usuario (index.routes.js)
+app.use( require( './Controllers-Routes/index.routes'));
+
  
 
 

@@ -1,3 +1,5 @@
+
+
 const mongoose = require('mongoose');
 
 //Nos ayuda a validar el email, para que no se registren repetidos
@@ -44,7 +46,6 @@ let usuarioSchema = new Schema({
     }
 });
 
-
 //Modificamos el Schema para guardar informacion que no es necesaria ser mostrada
 usuarioSchema.methods.toJSON = function() {
     let user = this; 
@@ -58,6 +59,5 @@ usuarioSchema.methods.toJSON = function() {
 usuarioSchema.plugin( uniqueValidator, {
     message: '{PATH} debe de ser unico'
 });
-
 
 module.exports = mongoose.model( 'Usuario', usuarioSchema);

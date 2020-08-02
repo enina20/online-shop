@@ -22,12 +22,12 @@ process.env.SEED = process.env.SEED || 'seed-desarrollo';
 //===================================
 // BASE DE DATOS
 //===================================
+//MONGO_URI es una configuracion de heroku
 let urlDB;
 if(process.env.NODE_ENV === 'dev'){
     urlDB = 'mongodb://localhost:27017/cafe'
 }else{
-    urlDB = process.env.MONGO_URI;
-    
+    urlDB = process.env.MONGO_URI;    
 }
 
 process.env.URLDB = urlDB;
