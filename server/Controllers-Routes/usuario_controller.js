@@ -125,7 +125,6 @@ app.post('/usuario', [verificaToken, verificaAdmin_Role] , function (req, res) {
             ok: true,
             usuario: usuarioBorrado
         });
-
     });    
   });
   

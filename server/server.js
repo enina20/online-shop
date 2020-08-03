@@ -4,6 +4,9 @@ const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
 
+//Importamos el archivo path que nos ayudara a mostrar la carpeta publica
+const path = require('path');
+
 //El bodyParser nos ayuda a obtener la data que manda el usuario en una peticion  post y put
 const bodyParser = require('body-parser');
 
@@ -16,6 +19,9 @@ app.use(bodyParser.json());
 
 //Importamos el archivo de las rutas del usuario (index.routes.js)
 app.use( require( './Controllers-Routes/index.routes'));
+
+//habilitamos la carpeta public para que pueda se accedida 
+app.use( express.static(path.resolve(__dirname , '../public')));
 
  
 
