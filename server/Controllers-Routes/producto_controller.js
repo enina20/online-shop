@@ -89,10 +89,14 @@ app.get('/producto/buscar/:termino', verificaToken, (req, res) => {
                     err
                 });
             }
-            res.json({
-                ok: true,
-                productos
+            Producto.countDocuments( { disponible: true }, (err, conteo) => {                
+                res.json({
+                    ok: true,
+                    productos,
+                    total: conteo
+                });
             });
+            
 
         });
 });
