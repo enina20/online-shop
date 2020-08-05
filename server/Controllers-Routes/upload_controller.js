@@ -17,8 +17,6 @@ app.put('/upload/:tipo/:id', function(req, res) {
     let tipo = req.params.tipo;
     let id = req.params.id;
 
-
-
     if(!req.files){
         return res.status(400).json({
             ok: false,
@@ -59,8 +57,6 @@ app.put('/upload/:tipo/:id', function(req, res) {
 
     }
 
-
-
     //Cambiar nombre del archivo
     let nombreArchivo = `${ id } - ${ new Date().getMilliseconds() }.${ extension }`
     archivo.mv( `uploads/${ tipo }/${ nombreArchivo }`, (err) => {
@@ -77,7 +73,7 @@ app.put('/upload/:tipo/:id', function(req, res) {
 
         //Aqui la imagen ya esta cargada en la carpeta correspondiente
         //Lo que ahora debemos hacer es actualizar la infromacion del usuario o producto
-        if(tipo === 'usuario'){
+        if(tipo === 'usuarios'){
             imagenUsuario(id, res, nombreArchivo);
         }else{
             imagenProducto(id, res, nombreArchivo);
@@ -93,7 +89,9 @@ function imagenUsuario( id, res, nombreArchivo){
             borraArchivo( nombreArchivo, 'usuarios');
             return res.status(500).json({
                 ok: false,
-                err
+                err: {
+                    message: 'Error en la base de datos'
+                }
             });
         }
 
@@ -109,7 +107,6 @@ function imagenUsuario( id, res, nombreArchivo){
 
         borraArchivo(usuarioDB.img, 'usuarios');
 
-        
         usuarioDB.img = nombreArchivo;
         usuarioDB.save( ( err, usuarioSave ) => {
 
@@ -139,7 +136,7 @@ function imagenProducto( id, res, nombreArchivo ){
             return res.status(400).json({
                 ok: false,
                 err: {
-                    message: 'Usuario no existe'
+                    message: 'Producto no existe'
                 }
             });
         }
